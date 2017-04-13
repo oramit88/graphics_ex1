@@ -8,24 +8,47 @@
     <link rel="stylesheet" href="includes/style.css" >
   </head>
   <body>
-      <main>
-      <section class="menuSection">
-        <p id="firstP" class="points">First Point:</p>
-        <button class="btnChange" onclick="changeFirstPoint()">Change Me!</button>
+    <div id="wrapper">
+        <header>
+          <h1>graphics cource</h1>
+            <h2>ex1</h2>
+          <h3>students: </h3>
+          <h4>daria dadov (____)</h4>
+          <h4>or amit (301427647)</h4>
+        </header>
 
-        <p id="secondP" class="points">Second Point:</p>
-        <button class="btnChange" onclick="changeSecondPoint()">Change Me!</button>
+        <section class="menuSection1">
+            <!--<section class="pointsSection">-->
+                <h4>board points:</h4>
+                <p id="firstP" class="points">First Point:</p>
+                <button class="btnChange" onclick="changeFirstPoint()">Change Me!</button>
+
+                <p id="secondP" class="points">Second Point:</p>
+                <button class="btnChange" onclick="changeSecondPoint()">Change Me!</button>
+            <!--</section>-->
         </section>
-        <section class="menuSection">
-          <button id="line" onclick="MyLine()">Draw Line</button>
-          <button id="circle" onclick="MyCircle()">Draw Circle</button>
-          <input id="polyNum" type="number" name="number">
-          <button onclick="MyPolygon()">Draw Polygon</button>
-        </section>
-        <canvas id="workingZone" width="600" height="600"></canvas>
 
-      </main>
+        <section class="menuSection2">
+            <h4>menu:</h4>
 
-      <script src="includes/script.js"></script>
+            <button id="line" onclick="MyLine()">Draw Line</button>
+            <button id="circle" onclick="MyCircle()">Draw Circle</button>
+
+          <fieldset class="poligonfieldset">
+            <legend>my poligon</legend>
+            number of aaaaaa:<input id="polyNum" type="number" name="number">
+            <button onclick="MyPolygon()">Draw Polygon</button>
+          </fieldset>
+
+          </section>
+        <canvas id="workingZone" width="800" height="800"></canvas>
+
+
+
+
+    </div>
+
+
+    <script src="includes/script.js"></script>
   </body>
 </html>

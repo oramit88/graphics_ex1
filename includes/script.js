@@ -7,17 +7,17 @@ var dy = undefined;
 var isNeedToChangeFirst = true;
 var isNeedToChangeSecond = true;
 
-var firstP = document.getElementById("firstP");
-var secondP = document.getElementById("secondP");
-var c = document.getElementById("workingZone");
+var firstP = document.getElementById("firstP"); //the Gui first point coordinates
+var secondP = document.getElementById("secondP"); //the Gui second point coordinates
+
+var canvasBoard = document.getElementById("workingZone");
+
+
 function putPixel(x,y){
-  var c1 = document.getElementById("workingZone");
-  console.log("putpx----X:"+x);
-  console.log("putpx----Y:"+y);
-  // var canvas = document.getElementById("workingZone");
-  var ctx = c1.getContext("2d");
-  ctx.fillStyle = "#FF0000";
-  ctx.fillRect(x,y,3,3);
+    console.log("putpx----X:"+x+"  putpx----Y:"+y);
+    var ctx = canvasBoard.getContext("2d");
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(x,y,2,2);
 }
 
 
@@ -27,10 +27,10 @@ function getMousePos(canvas, evt) {
       x: evt.clientX - rect.left,
       y: evt.clientY - rect.top
     };
-  }
+}
 
-c.addEventListener('click', function(evt) {
-  var mousePos = getMousePos(c, evt);
+canvasBoard.addEventListener('click', function(evt) {
+  var mousePos = getMousePos(canvasBoard, evt);
   var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
   if (isNeedToChangeFirst == true){
     firstPoint_X = mousePos.x;
@@ -48,7 +48,7 @@ c.addEventListener('click', function(evt) {
   }
 
   // console.log(message);
-  }, false);
+}, false);
 
 function changeFirstPoint(){
   isNeedToChangeFirst = true;
@@ -79,7 +79,6 @@ function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
 
   console.log("dxx: " + test + "dyy:  " + dyy);
 
-  var Steps;
   var x;
   var y;
   var m = dy/dx;
@@ -92,10 +91,10 @@ function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
   dyy = dyy *(-1);
  
   for(var v=0; v < range; v++){
-   x = x + dxx;
-   y = y + dyy;
-   putPixel(Math.round(x), Math.round(y));
-}
+    x = x + dxx;
+    y = y + dyy;
+    putPixel(Math.round(x), Math.round(y));
+  }
 }
 
 var radius;
@@ -105,7 +104,6 @@ function calcRadius(){
   var yr = firstPoint_Y - secondPoint_Y;
   var powRadius = Math.pow(xr, 2) + Math.pow(yr, 2);
   return Math.sqrt(powRadius);
-
 }
 
 function MyCircle(){
