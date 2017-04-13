@@ -1,0 +1,41 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  
+}
+header, footer, main, aside, article, section, nav {
+  display:block;
+}
+
+#workingZone{
+  margin: 60px;
+  background-color: yellow;
+}
+
+.btnChange{
+  float: left;
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+.points{
+  float: left;
+  width: 160px;
+  margin-top: 10px;
+}
+
+#line{
+/*  display: block;
+  float: left;*/
+  background-color: red;
+}
+
+.menuSection{
+  height: 50px;
+}
+
+#polyNum{
+  margin-left: 20px;
+  width: 50px;
+}
