@@ -7,18 +7,37 @@ var dy = undefined;
 var isNeedToChangeFirst = true;
 var isNeedToChangeSecond = true;
 
+
+
+var numOfPoints=0;
+
 var firstP = document.getElementById("firstP"); //the Gui first point coordinates
 var secondP = document.getElementById("secondP"); //the Gui second point coordinates
 
 var canvasBoard = document.getElementById("workingZone");
+var ctx = canvasBoard.getContext("2d");
 
+
+function clearBoard(){
+  console.log("clearBoard");
+    ctx.clearRect(0,0,800,800);
+}
 
 function putPixel(x,y){
+    numOfPoints++;
     console.log("putpx----X:"+x+"  putpx----Y:"+y);
-    var ctx = canvasBoard.getContext("2d");
+    ctx = canvasBoard.getContext("2d");
     ctx.fillStyle = "#000000";
     ctx.fillRect(x,y,2,2);
 }
+
+function deletePixel(x,y){
+    console.log("delete px----X:"+x+"  putpx----Y:"+y);
+    ctx = canvasBoard.getContext("2d");
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(x,y,2,2);
+}
+
 
 
 function getMousePos(canvas, evt) {
@@ -30,36 +49,55 @@ function getMousePos(canvas, evt) {
 }
 
 canvasBoard.addEventListener('click', function(evt) {
-  var mousePos = getMousePos(canvasBoard, evt);
-  var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-  if (isNeedToChangeFirst == true){
-    firstPoint_X = mousePos.x;
-    firstPoint_Y = mousePos.y;
-    firstP.innerText="First Point: ("+firstPoint_X+ "," + firstPoint_Y +")" ;
-    putPixel(firstPoint_X,firstPoint_Y);
-    isNeedToChangeFirst = false;
+  console.log("Board listener: numOfPoints="+numOfPoints);
+  if(numOfPoints<2){
+      var mousePos = getMousePos(canvasBoard, evt);
+      var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+      if (isNeedToChangeFirst == true){
+          //deletePixel(firstPoint_X,firstPoint_Y);
+          firstPoint_X = Math.round(mousePos.x);
+          firstPoint_Y = Math.round(mousePos.y);
+          firstP.innerText="First Point: ("+firstPoint_X+ "," + firstPoint_Y +")" ;
+          putPixel(firstPoint_X,firstPoint_Y);
+          isNeedToChangeFirst = false;
+      }
+      else if (isNeedToChangeSecond == true){
+          //deletePixel(firstPoint_X,firstPoint_Y);
+          secondPoint_X = Math.round(mousePos.x);
+          secondPoint_Y = Math.round(mousePos.y);
+          secondP.innerText="Second Point: ("+secondPoint_X+ "," + secondPoint_Y +")" ;
+          putPixel(secondPoint_X,secondPoint_Y);
+          isNeedToChangeSecond = false;
+      }
   }
-  else if (isNeedToChangeSecond == true){
-    secondPoint_X = mousePos.x;
-    secondPoint_Y = mousePos.y;
-    secondP.innerText="Second Point: ("+secondPoint_X+ "," + secondPoint_Y +")" ;
-    putPixel(secondPoint_X,secondPoint_Y);
-    isNeedToChangeSecond = false;
-  }
+
 
   // console.log(message);
 }, false);
 
 function changeFirstPoint(){
+  deletePixel(firstPoint_X,firstPoint_Y);
+  numOfPoints--;
   isNeedToChangeFirst = true;
 }
 
 function changeSecondPoint(){
+  deletePixel(secondPoint_X,secondPoint_Y);
+  numOfPoints--;
   isNeedToChangeSecond = true;
 }
 
 function MyLine(){
-  MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y);
+  if(firstPoint_X==undefined||firstPoint_Y==undefined){
+    alert("first point isnt defined!");
+  }
+  else if(secondPoint_X==undefined||secondPoint_Y==undefined){
+      alert("second point isnt defined!");
+  }
+  else{
+      MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y);
+      numOfPoints=0;
+  }
 }
 function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
   var dx;
@@ -107,27 +145,45 @@ function calcRadius(){
 }
 
 function MyCircle(){
-  radius = calcRadius();
-  for (var angle=0; angle < 720; angle++){
-    var x = firstPoint_X + radius * Math.sin(angle);
-    var y = firstPoint_Y + radius * Math.cos(angle);
-    putPixel(x,y);
-  }
+    if(firstPoint_X==undefined||firstPoint_Y==undefined){
+        alert("first point isnt defined!");
+    }
+    else if(secondPoint_X==undefined||secondPoint_Y==undefined){
+        alert("second point isnt defined!");
+    }
+    else{
+        radius = calcRadius();
+        for (var angle=0; angle < 720; angle++){
+            var x = firstPoint_X + radius * Math.sin(angle);
+            var y = firstPoint_Y + radius * Math.cos(angle);
+            putPixel(x,y);
+        }
+        numOfPoints=0;
+    }
 }
 
 function MyPolygon(){
-  radius = calcRadius();
-  var poly = document.getElementById("polyNum").value;
-  var angle = 360/poly;
-  var lastPx = firstPoint_X + radius * Math.cos(0 * 2 * Math.PI / poly);
-  var lastPy = firstPoint_Y + radius * Math.sin(0 * 2 * Math.PI / poly);
-  for (var i=1; i<=poly; i++){
-    console.log(i);
-    var x = firstPoint_X + radius * Math.cos(i * 2 * Math.PI / poly);
-    var y = firstPoint_Y + radius * Math.sin(i * 2 * Math.PI / poly);
-    putPixel(x,y);
-    MyLine2(lastPx,lastPy,x,y);
-    lastPx = x;
-    lastPy = y;
-  }
+    if(firstPoint_X==undefined||firstPoint_Y==undefined){
+        alert("first point isnt defined!");
+    }
+    else if(secondPoint_X==undefined||secondPoint_Y==undefined){
+        alert("second point isnt defined!");
+    }
+    else{
+        radius = calcRadius();
+        var poly = document.getElementById("polyNum").value;
+        var lastPx = firstPoint_X + radius * Math.cos(0 * 2 * Math.PI / poly);
+        var lastPy = firstPoint_Y + radius * Math.sin(0 * 2 * Math.PI / poly);
+        for (var i=1; i<=poly; i++){
+            console.log(i);
+            var x = firstPoint_X + radius * Math.cos(i * 2 * Math.PI / poly);
+            var y = firstPoint_Y + radius * Math.sin(i * 2 * Math.PI / poly);
+            putPixel(x,y);
+            MyLine2(lastPx,lastPy,x,y);
+            lastPx = x;
+            lastPy = y;
+        }
+        numOfPoints=0;
+    }
+
 }

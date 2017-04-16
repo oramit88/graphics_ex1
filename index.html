@@ -19,33 +19,49 @@
 
         <section class="menuSection1">
             <!--<section class="pointsSection">-->
-                <h4>board points:</h4>
+                <h4>Board points:</h4>
                 <p id="firstP" class="points">First Point:</p>
                 <button class="btnChange" onclick="changeFirstPoint()">Change Me!</button>
 
                 <p id="secondP" class="points">Second Point:</p>
                 <button class="btnChange" onclick="changeSecondPoint()">Change Me!</button>
+
+                <button class="clearBoardBtn" onclick="clearBoard()">clear board</button>
+
+
             <!--</section>-->
         </section>
+        <section class="menuSection2">
+            <h4>Menu:</h4>
+
+            <button class="drawBtn" id="line" onclick="MyLine()">Draw Line</button>
+            <button class="drawBtn" id="circle" onclick="MyCircle()">Draw Circle</button>
+
+            <fieldset class="poligonfieldset">
+                <legend>my poligon</legend>
+                number of sides:<input id="polyNum" type="number" name="number" min="3" value="3">
+                <button style="background-color: lawngreen" onclick="MyPolygon()">Draw Polygon</button>
+            </fieldset>
+        </section>
+
 
         <section class="menuSection2">
-            <h4>menu:</h4>
+            <h4>Bezier curves</h4>
+            <fieldset class="Bezierfieldset">
+                <legend>Bezier curves </legend>
+                <p id="1_BezierPopint" class="points">First Point:</p>
+                <button class="btnChange" onclick="change1_BezierPopint()">Change</button>
+                <p id="2_BezierPopint" class="points">Second Point:</p>
+                <button class="btnChange" onclick="change2_BezierPopint()">Change</button>
+                <p id="3_BezierPopint" class="points">Third Point:</p>
+                <button class="btnChange" onclick="change3_BezierPopint()">Change</button>
+                <p id="4_BezierPopint" class="points">Fourth Point:</p>
+                <button class="btnChange" onclick="change4_BezierPopint()">Change</button>
+                <button class="drawBtn" onclick="drawBeziercurvest()">Draw bazier curve</button>
+            </fieldset>
+        </section>
 
-            <button id="line" onclick="MyLine()">Draw Line</button>
-            <button id="circle" onclick="MyCircle()">Draw Circle</button>
-
-          <fieldset class="poligonfieldset">
-            <legend>my poligon</legend>
-            number of aaaaaa:<input id="polyNum" type="number" name="number">
-            <button onclick="MyPolygon()">Draw Polygon</button>
-          </fieldset>
-
-          </section>
         <canvas id="workingZone" width="800" height="800"></canvas>
-
-
-
-
     </div>
 
 
