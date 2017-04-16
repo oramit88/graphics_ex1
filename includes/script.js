@@ -4,8 +4,27 @@ var secondPoint_X = undefined;
 var secondPoint_Y = undefined;
 var dx = undefined;
 var dy = undefined;
+
+
 var isNeedToChangeFirst = true;
 var isNeedToChangeSecond = true;
+
+var isNeedToChangechange_1_BezierPoint=false;
+var isNeedToChangechange_2_BezierPoint=false;
+var isNeedToChangechange_3_BezierPoint=false;
+var isNeedToChangechange_4_BezierPoint=false;
+
+var first_BezierPoint_X;
+var first_BezierPoint_Y;
+
+var second_BezierPoint_X;
+var second_BezierPoint_Y;
+
+var third_BezierPoint_X;
+var third_BezierPoint_Y;
+
+var fourth_BezierPoint_X;
+var fourth_BezierPoint_Y;
 
 
 
@@ -13,6 +32,14 @@ var numOfPoints=0;
 
 var firstP = document.getElementById("firstP"); //the Gui first point coordinates
 var secondP = document.getElementById("secondP"); //the Gui second point coordinates
+
+//bazier point GUI
+var p_of_1_BezierPopint=document.getElementById("1_BezierPopint");
+var p_of_2_BezierPopint=document.getElementById("2_BezierPopint");
+var p_of_3_BezierPopint=document.getElementById("3_BezierPopint");
+var p_of_4_BezierPopint=document.getElementById("4_BezierPopint");
+
+
 
 var canvasBoard = document.getElementById("workingZone");
 var ctx = canvasBoard.getContext("2d");
@@ -24,7 +51,7 @@ function clearBoard(){
 }
 
 function putPixel(x,y){
-    numOfPoints++;
+    //numOfPoints++;
     console.log("putpx----X:"+x+"  putpx----Y:"+y);
     ctx = canvasBoard.getContext("2d");
     ctx.fillStyle = "#000000";
@@ -49,29 +76,62 @@ function getMousePos(canvas, evt) {
 }
 
 canvasBoard.addEventListener('click', function(evt) {
+    var mousePos = getMousePos(canvasBoard, evt);
   console.log("Board listener: numOfPoints="+numOfPoints);
-  if(numOfPoints<2){
-      var mousePos = getMousePos(canvasBoard, evt);
-      var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-      if (isNeedToChangeFirst == true){
-          //deletePixel(firstPoint_X,firstPoint_Y);
-          firstPoint_X = Math.round(mousePos.x);
-          firstPoint_Y = Math.round(mousePos.y);
-          firstP.innerText="First Point: ("+firstPoint_X+ "," + firstPoint_Y +")" ;
-          putPixel(firstPoint_X,firstPoint_Y);
-          isNeedToChangeFirst = false;
+  //the bazier change points
+  if(isNeedToChangechange_1_BezierPoint==true||isNeedToChangechange_2_BezierPoint==true||isNeedToChangechange_3_BezierPoint==true||isNeedToChangechange_4_BezierPoint==true){
+      if(isNeedToChangechange_1_BezierPoint){
+        first_BezierPoint_X=Math.round(mousePos.x);
+        first_BezierPoint_Y= Math.round(mousePos.y);
+        p_of_1_BezierPopint.innerText="First Point:("+first_BezierPoint_X+","+first_BezierPoint_Y+")";
+        putPixel(first_BezierPoint_X,first_BezierPoint_Y);
+        isNeedToChangechange_1_BezierPoint=false;
       }
-      else if (isNeedToChangeSecond == true){
-          //deletePixel(firstPoint_X,firstPoint_Y);
-          secondPoint_X = Math.round(mousePos.x);
-          secondPoint_Y = Math.round(mousePos.y);
-          secondP.innerText="Second Point: ("+secondPoint_X+ "," + secondPoint_Y +")" ;
-          putPixel(secondPoint_X,secondPoint_Y);
-          isNeedToChangeSecond = false;
+      if(isNeedToChangechange_2_BezierPoint){
+        second_BezierPoint_X=Math.round(mousePos.x);
+        second_BezierPoint_Y=Math.round(mousePos.y);
+        p_of_2_BezierPopint.innerText="Second Point:("+second_BezierPoint_X+","+second_BezierPoint_Y+")";
+        putPixel(second_BezierPoint_X,second_BezierPoint_Y);
+        isNeedToChangechange_2_BezierPoint=false;
+      }
+      if(isNeedToChangechange_3_BezierPoint){
+        third_BezierPoint_X=Math.round(mousePos.x);
+        third_BezierPoint_Y=Math.round(mousePos.y);
+        p_of_3_BezierPopint.innerText="Third Point:("+third_BezierPoint_X+","+third_BezierPoint_Y+")";
+        putPixel(third_BezierPoint_X,third_BezierPoint_Y);
+          isNeedToChangechange_3_BezierPoint=false;
+      }
+      if(isNeedToChangechange_4_BezierPoint){
+        fourth_BezierPoint_X=Math.round(mousePos.x);
+        fourth_BezierPoint_Y=Math.round(mousePos.y);
+        p_of_4_BezierPopint.innerText="Fourth Point:("+fourth_BezierPoint_X+","+fourth_BezierPoint_Y+")";
+        putPixel(fourth_BezierPoint_X,fourth_BezierPoint_Y);
+        isNeedToChangechange_4_BezierPoint=false;
       }
   }
-
-
+  else{ //the main two points
+      if(numOfPoints<2){
+          var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+          if (isNeedToChangeFirst == true){
+              //deletePixel(firstPoint_X,firstPoint_Y);
+              firstPoint_X = Math.round(mousePos.x);
+              firstPoint_Y = Math.round(mousePos.y);
+              firstP.innerText="First Point: ("+firstPoint_X+ "," + firstPoint_Y +")" ;
+              putPixel(firstPoint_X,firstPoint_Y);
+              numOfPoints++;
+              isNeedToChangeFirst = false;
+          }
+          else if (isNeedToChangeSecond == true){
+              //deletePixel(firstPoint_X,firstPoint_Y);
+              secondPoint_X = Math.round(mousePos.x);
+              secondPoint_Y = Math.round(mousePos.y);
+              secondP.innerText="Second Point: ("+secondPoint_X+ "," + secondPoint_Y +")" ;
+              putPixel(secondPoint_X,secondPoint_Y);
+              numOfPoints++;
+              isNeedToChangeSecond = false;
+          }
+      }
+  }
   // console.log(message);
 }, false);
 
@@ -96,7 +156,7 @@ function MyLine(){
   }
   else{
       MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y);
-      numOfPoints=0;
+      //numOfPoints=0;
   }
 }
 function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
@@ -158,7 +218,7 @@ function MyCircle(){
             var y = firstPoint_Y + radius * Math.cos(angle);
             putPixel(x,y);
         }
-        numOfPoints=0;
+        //numOfPoints=0;
     }
 }
 
@@ -183,7 +243,20 @@ function MyPolygon(){
             lastPx = x;
             lastPy = y;
         }
-        numOfPoints=0;
+       // numOfPoints=0;
     }
 
+}
+
+function change1_BezierPopint() {
+    isNeedToChangechange_1_BezierPoint=true;
+}
+function change2_BezierPopint() {
+    isNeedToChangechange_2_BezierPoint=true;
+}
+function change3_BezierPopint() {
+    isNeedToChangechange_3_BezierPoint=true;
+}
+function change4_BezierPopint() {
+    isNeedToChangechange_4_BezierPoint=true;
 }
