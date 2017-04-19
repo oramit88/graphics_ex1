@@ -1,19 +1,25 @@
+// Computer Graphics (3504837)- Exercise 1
+// Date: 19.4.2017
+// students name: daria dadov (ID:319575676), or amit (ID:301427647)
+
+
+
+// points variables for line,circle,polygon
 var firstPoint_X = undefined;
 var firstPoint_Y = undefined;
 var secondPoint_X = undefined;
 var secondPoint_Y = undefined;
-var dx = undefined;
-var dy = undefined;
 
 
+//boolean variables for changing the points when pressing "change" button
 var isNeedToChangeFirst = true;
 var isNeedToChangeSecond = true;
-
 var isNeedToChangechange_1_BezierPoint=false;
 var isNeedToChangechange_2_BezierPoint=false;
 var isNeedToChangechange_3_BezierPoint=false;
 var isNeedToChangechange_4_BezierPoint=false;
 
+// points variables for Bezier curve
 var first_BezierPoint_X;
 var first_BezierPoint_Y;
 
@@ -27,7 +33,7 @@ var fourth_BezierPoint_X;
 var fourth_BezierPoint_Y;
 
 
-
+//counter for limiting the number of drawing on the board
 var numOfPoints=0;
 
 var firstP = document.getElementById("firstP"); //the Gui first point coordinates
@@ -39,34 +45,33 @@ var p_of_2_BezierPopint=document.getElementById("2_BezierPopint");
 var p_of_3_BezierPopint=document.getElementById("3_BezierPopint");
 var p_of_4_BezierPopint=document.getElementById("4_BezierPopint");
 
-
-
+//the board
 var canvasBoard = document.getElementById("workingZone");
 var ctx = canvasBoard.getContext("2d");
 
 
 function clearBoard(){
-  console.log("clearBoard");
+    console.log("clearBoard");
     ctx.clearRect(0,0,800,800);
 }
 
+//draws a pixel on the board in (x,y) point
 function putPixel(x,y){
     //numOfPoints++;
     console.log("putpx----X:"+x+"  putpx----Y:"+y);
     ctx = canvasBoard.getContext("2d");
     ctx.fillStyle = "#000000";
-    ctx.fillRect(x,y,2,2);
+    ctx.fillRect(x,y,1,1);
 }
 
 function deletePixel(x,y){
     console.log("delete px----X:"+x+"  putpx----Y:"+y);
     ctx = canvasBoard.getContext("2d");
     ctx.fillStyle = "yellow";
-    ctx.fillRect(x,y,2,2);
+    ctx.fillRect(x,y,1,1);
 }
 
-
-
+//returns the mouse position when user click's on the board
 function getMousePos(canvas, evt) {
   var rect = canvas.getBoundingClientRect();
     return {
@@ -75,15 +80,18 @@ function getMousePos(canvas, evt) {
     };
 }
 
+//add an event listener to mouse pressing
 canvasBoard.addEventListener('click', function(evt) {
     var mousePos = getMousePos(canvasBoard, evt);
   console.log("Board listener: numOfPoints="+numOfPoints);
   //the bazier change points
   if(isNeedToChangechange_1_BezierPoint==true||isNeedToChangechange_2_BezierPoint==true||isNeedToChangechange_3_BezierPoint==true||isNeedToChangechange_4_BezierPoint==true){
-      if(isNeedToChangechange_1_BezierPoint){
+      if(isNeedToChangechange_1_BezierPoint){ //id user wants to change the first bazier point
         first_BezierPoint_X=Math.round(mousePos.x);
         first_BezierPoint_Y= Math.round(mousePos.y);
+        //update the GUI with the  point
         p_of_1_BezierPopint.innerText="First Point:("+first_BezierPoint_X+","+first_BezierPoint_Y+")";
+        //draw the point on the bord
         putPixel(first_BezierPoint_X,first_BezierPoint_Y);
         isNeedToChangechange_1_BezierPoint=false;
       }
@@ -110,8 +118,7 @@ canvasBoard.addEventListener('click', function(evt) {
       }
   }
   else{ //the main two points
-      if(numOfPoints<2){
-          var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+      if(numOfPoints<2){ //allow maximum 2 points drawing on the board at the same time
           if (isNeedToChangeFirst == true){
               //deletePixel(firstPoint_X,firstPoint_Y);
               firstPoint_X = Math.round(mousePos.x);
@@ -147,18 +154,21 @@ function changeSecondPoint(){
   isNeedToChangeSecond = true;
 }
 
+
 function MyLine(){
+
   if(firstPoint_X==undefined||firstPoint_Y==undefined){
     alert("first point isnt defined!");
   }
   else if(secondPoint_X==undefined||secondPoint_Y==undefined){
       alert("second point isnt defined!");
   }
-  else{
+  else{ //the two points defined by the user and now we can draw the line.
       MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y);
-      //numOfPoints=0;
   }
 }
+
+//drawing the line between first point to second point
 function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
   var dx;
   var dy;
@@ -181,7 +191,6 @@ function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
   var y;
   var m = dy/dx;
   console.log("m"+ m);
-  var min = Math.min(firstPoint_X, secondPoint_X);
 
   x = firstPoint_X;
   y = firstPoint_Y;
@@ -196,7 +205,6 @@ function MyLine2(firstPoint_X,firstPoint_Y,secondPoint_X, secondPoint_Y){
 }
 
 var radius;
-
 function calcRadius(){
   var xr = firstPoint_X - secondPoint_X;
   var yr = firstPoint_Y - secondPoint_Y;
@@ -204,6 +212,7 @@ function calcRadius(){
   return Math.sqrt(powRadius);
 }
 
+//drawing the circle on the board
 function MyCircle(){
     if(firstPoint_X==undefined||firstPoint_Y==undefined){
         alert("first point isnt defined!");
@@ -218,10 +227,10 @@ function MyCircle(){
             var y = firstPoint_Y + radius * Math.cos(angle);
             putPixel(x,y);
         }
-        //numOfPoints=0;
     }
 }
 
+//drawing the polygon on the board
 function MyPolygon(){
     if(firstPoint_X==undefined||firstPoint_Y==undefined){
         alert("first point isnt defined!");
@@ -259,4 +268,46 @@ function change3_BezierPopint() {
 }
 function change4_BezierPopint() {
     isNeedToChangechange_4_BezierPoint=true;
+}
+
+function drawBezierCurvest(){
+    var buzierMatrix=math.matrix([[ -1, 3, -3 , 1 ],[ 3, -6, 3, 0 ],[ -3, 3, 0, 0 ],[ 1, 0, 0, 0 ]]);
+    var xPointsMatrix=math.matrix([[first_BezierPoint_X],[second_BezierPoint_X],[third_BezierPoint_X],[fourth_BezierPoint_X]]);
+    var yPointsMatrix=math.matrix([[first_BezierPoint_Y],[second_BezierPoint_Y],[third_BezierPoint_Y],[fourth_BezierPoint_Y]]);
+
+    if(first_BezierPoint_X==undefined||second_BezierPoint_X==undefined||third_BezierPoint_X==undefined||fourth_BezierPoint_Y==undefined){
+        alert("not all points defined");
+    }
+    else{ //we have 4 points for bezier algorithm
+
+        //drawing tangent
+        //MyLine2(first_BezierPoint_X,first_BezierPoint_Y,second_BezierPoint_X,second_BezierPoint_Y);
+        //MyLine2(third_BezierPoint_X,third_BezierPoint_Y,fourth_BezierPoint_X,fourth_BezierPoint_Y);
+
+
+        //drawing the curve
+        var userNumber=document.getElementById("bazSecNum").value;
+        var slot=1/userNumber;
+        var lastPointX=first_BezierPoint_X;
+        var lastPointY=first_BezierPoint_Y;
+
+        for(var t=0;t<=1;t=t+slot){
+            var t_in_3=Math.pow(t, 3);
+            var t_in_2=Math.pow(t, 2);
+
+            var tMatrix=math.matrix([[t_in_3, t_in_2, t , 1 ]]);
+            var tMatrix_mult_bazier=math.multiply(tMatrix,buzierMatrix);
+
+            var final_X=math.multiply(tMatrix_mult_bazier,xPointsMatrix);
+            var final_y=math.multiply(tMatrix_mult_bazier,yPointsMatrix);
+            console.log("*****************");
+            console.log(final_X._data[0][0]);
+            console.log(final_y._data[0][0]);
+            console.log("*****************");
+            putPixel(final_X._data[0][0],final_y._data[0][0]);
+            MyLine2(lastPointX,lastPointY,final_X._data[0][0],final_y._data[0][0]);
+            lastPointX=final_X._data[0][0];
+            lastPointY=final_y._data[0][0];
+        }
+   }
 }
